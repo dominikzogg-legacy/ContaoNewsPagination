@@ -15,6 +15,7 @@
                 <li><span class="current"><?php echo $article['link']; ?></span></li>
             <?php else: ?>
                 <li><a href="<?php echo $article['href']; ?>" class="link" title="<?php echo $article['title']; ?>"><?php echo $article['link']; ?></a></li>
+    <?php if(count($this->articles) > 1): ?>
         <p><?php echo $this->total; ?></p>
             <?php endif; ?>
         <?php endforeach; ?>
