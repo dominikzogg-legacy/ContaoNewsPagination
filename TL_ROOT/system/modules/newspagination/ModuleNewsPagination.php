@@ -130,6 +130,9 @@ class ModuleNewsPagination extends ModuleNews
         // assign articles to template
         $this->Template->articles = $arrArticles;
 
+        // assign total
+        $this->Template->total = sprintf($GLOBALS['TL_LANG']['MSC']['totalPages'], $intActive, $intCounter);
+
         // assign array first
         if($intActive > 2)
         {
