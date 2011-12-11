@@ -89,6 +89,8 @@ class ModuleNewsPagination extends ModuleNews
                 news.pid = relatednews.pid AND
                 (news.text != '' OR news.id = relatednews.id)
                 " . (!BE_USER_LOGGED_IN ? " AND (news.start = '' OR news.start < ?) AND (news.stop = '' OR news.stop > ?) AND news.published = 1" : "") . "
+            ORDER BY
+                news.date DESC
         ")->execute(
             (is_numeric($this->Input->get('items')) ? $this->Input->get('items') : 0),
             $this->Input->get('items'),
