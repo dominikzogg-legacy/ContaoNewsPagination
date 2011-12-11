@@ -80,13 +80,13 @@ class ModuleNewsPagination extends ModuleNews
                 news.headline
             FROM
                 tl_news AS news
-            INNER JOIN
+            LEFT JOIN
                 tl_news AS relatednews ON (
-                    relatednews.pid = news.pid AND
                     (relatednews.id = ? OR relatednews.alias = ?)
                     " . (!BE_USER_LOGGED_IN ? " AND (relatednews.start = '' OR relatednews.start < ?) AND (relatednews.stop = '' OR relatednews.stop > ?) AND relatednews.published = 1" : "") . "
                 )
             WHERE
+                news.pid = relatednews.pid AND
                 (news.text != '' OR news.id = relatednews.id)
                 " . (!BE_USER_LOGGED_IN ? " AND (news.start = '' OR news.start < ?) AND (news.stop = '' OR news.stop > ?) AND news.published = 1" : "") . "
         ")->execute(
