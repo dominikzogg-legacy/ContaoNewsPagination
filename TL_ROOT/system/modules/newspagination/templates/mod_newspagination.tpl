@@ -1,3 +1,4 @@
+<!-- indexer::stop -->
 <div class="<?php echo $this->class; ?> pagination block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
     <?php if ($this->headline): ?>
         <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
@@ -23,4 +24,4 @@
             <li><a href="<?php echo $this->last['href']; ?>" class="last" title="<?php echo $this->last['title']; ?>"><?php echo $this->last['link']; ?></a></li>
         <?php endif; ?>
     </ul>
-</div>
+</div><!-- indexer::continue -->
