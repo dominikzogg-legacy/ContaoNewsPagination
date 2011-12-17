@@ -1,4 +1,4 @@
-<?php if (!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php if(!defined('TL_ROOT')) die('You cannot access this file directly!');
 
 /**
  * Contao Open Source CMS
@@ -26,39 +26,41 @@
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
-class ModuleNewsPagination extends ModuleNews
+class NewsPagination extends ModuleNews
 {
     /**
-     * Template
+     * template
      * @var string
      */
-    protected $strTemplate = 'mod_newspagination';
+    protected $strTemplate = 'newspagination';
 
     /**
-     * Display a wildcard in the back end
+     * __construct
+     * @param object $objNewsReader news reader object
+     */
+    public function __construct($objNewsReader)
+    {
+        // check if the parameter seems to be ok
+        if(!is_object($objNewsReader) || get_class($objNewsReader) != 'FrontendTemplate')
+        {
+            throw new Exception('illegal call!');
+        }
+
+        // get libraries
+        $this->import('Input');
+        $this->import('Database');
+
+        // get data from news reader
+        $this->item = $this->Input->get('items');
+        $this->news_archives = $objNewsReader->news_archives;
+    }
+
+    /**
+     * generate
      * @return string
      */
     public function generate()
     {
-        if (TL_MODE == 'BE')
-        {
-            $objTemplate = new BackendTemplate('be_wildcard');
-
-            $objTemplate->wildcard = '### NEWS PAGINATION ###';
-            $objTemplate->title = $this->headline;
-            $objTemplate->id = $this->id;
-            $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-
-            return $objTemplate->parse();
-        }
-
-        // Return if no news item has been specified
-        if (!$this->Input->get('items'))
-        {
-            return '';
-        }
-
         return parent::generate();
     }
 
@@ -72,7 +74,7 @@ class ModuleNewsPagination extends ModuleNews
         $intCounter = 0;
         $intActive = 0;
 
-        // Get news
+        // get all news items who are in the configured archives
         $objArticles = $this->Database->prepare("
             SELECT
                 news.id,
@@ -80,25 +82,13 @@ class ModuleNewsPagination extends ModuleNews
                 news.headline
             FROM
                 tl_news AS news
-            LEFT JOIN
-                tl_news AS relatednews ON (
-                    (relatednews.id = ? OR relatednews.alias = ?)
-                    " . (!BE_USER_LOGGED_IN ? " AND (relatednews.start = '' OR relatednews.start < ?) AND (relatednews.stop = '' OR relatednews.stop > ?) AND relatednews.published = 1" : "") . "
-                )
             WHERE
-                news.pid = relatednews.pid AND
-                (news.text != '' OR news.id = relatednews.id)
+                news.pid IN(" . implode(',', $this->news_archives) . ") AND
+                news.text != ''
                 " . (!BE_USER_LOGGED_IN ? " AND (news.start = '' OR news.start < ?) AND (news.stop = '' OR news.stop > ?) AND news.published = 1" : "") . "
             ORDER BY
                 news.date DESC
-        ")->execute(
-            (is_numeric($this->Input->get('items')) ? $this->Input->get('items') : 0),
-            $this->Input->get('items'),
-            $intTime,
-            $intTime,
-            $intTime,
-            $intTime
-        );
+        ")->execute($intTime, $intTime);
 
         while($objArticles->next())
         {
@@ -111,7 +101,7 @@ class ModuleNewsPagination extends ModuleNews
             // add to articles array
             $arrArticle = array
             (
-                'isActive' => $this->Input->get('items') == $strAlias ? true : false,
+                'isActive' => $this->item == $strAlias ? true : false,
                 'href' => $this->addToUrl('items=' . $strAlias),
                 'title' => specialchars($objArticles->headline),
                 'link' => $intCounter,
