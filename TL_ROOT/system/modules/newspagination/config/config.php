@@ -27,6 +27,12 @@
  */
 
 /**
- * Front end modules
+ * addNewsPagination
+ * @param object $objNewsReader news reader object
+ * @return string rendered news pagination template
  */
-$GLOBALS['FE_MOD']['news']['newspagination'] = 'ModuleNewsPagination';
+function addNewsPagination($objNewsReader)
+{
+    $objNewsPagination = new NewsPagination($objNewsReader);
+    return($objNewsPagination->generate());
+}
