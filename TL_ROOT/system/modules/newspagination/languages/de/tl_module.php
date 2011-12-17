@@ -27,22 +27,6 @@
  */
 
 /**
- * Add palettes to tl_module
+ * Fields
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader'] = str_replace('news_archives', 'news_archives,news_pagination', $GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader']);
-
-/**
- * Add fields to tl_module
- */
-$GLOBALS['TL_DCA']['tl_module']['fields']['news_archives']['eval']['tl_class'] = 'w50';
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['news_pagination'] = array
-(
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['news_pagination'],
-    'exclude' => true,
-    'inputType' => 'checkbox',
-    'eval' => array
-    (
-        'tl_class' => 'w50',
-    ),
-);
+$GLOBALS['TL_LANG']['tl_module']['news_pagination'] = array('Pagination', 'fügt einen Paginator hinzu.');
