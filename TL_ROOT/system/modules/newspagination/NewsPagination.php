@@ -52,6 +52,7 @@ class NewsPagination extends ModuleNews
 
         // get data from news reader
         $this->item = $this->Input->get('items');
+        $this->itemtoshow = $objNewsReader->news_paginationCount;
         $this->news_archives = $objNewsReader->news_archives;
     }
 
@@ -69,10 +70,13 @@ class NewsPagination extends ModuleNews
      */
     protected function compile()
     {
+        $arrAllArticles = array();
         $arrArticles = array();
-        $intTime = time();
         $intCounter = 0;
         $intActive = 0;
+        $intStartAt = 0;
+        $intStopAt = 0;
+        $intTime = time();
 
         // get all news items who are in the configured archives
         $objArticles = $this->Database->prepare("
@@ -108,7 +112,7 @@ class NewsPagination extends ModuleNews
             );
 
             // add to articles array
-            $arrArticles[$intCounter] = $arrArticle;
+            $arrAllArticles[$intCounter] = $arrArticle;
 
             // set active
             if($arrArticle['isActive'])
@@ -117,16 +121,38 @@ class NewsPagination extends ModuleNews
             }
         }
 
-        // assign articles to template
-        $this->Template->articles = $arrArticles;
-
         // assign total
         $this->Template->total = sprintf($GLOBALS['TL_LANG']['MSC']['totalPages'], $intActive, $intCounter);
+
+        // assign all articles
+        $this->Template->allarticles = $arrAllArticles;
+
+
+        // set start at
+        $intStartAt = floor($intActive - ($this->itemtoshow / 2));
+        $intStartAt = $intCounter - $this->itemtoshow > $intStartAt ? $intStartAt : $intCounter - $this->itemtoshow;
+        $intStartAt = $intStartAt > 1 ?$intStartAt : 1;
+
+        // set stop at
+        $intStopAt = $intStartAt + $this->itemtoshow;
+        $intStopAt = $intStopAt <= $intCounter ? $intStopAt : $intCounter;
+        
+        // fill article to show array
+        foreach($arrAllArticles as $intKey => $arrArticle)
+        {
+            if($intKey >= $intStartAt && $intKey <= $intStopAt)
+            {
+                $arrArticles[$intKey] = $arrArticle;
+            }
+        }
+
+        // assign articles
+        $this->Template->articles = $arrArticles;
 
         // assign array first
         if($intActive > 2)
         {
-            $arrFirst = reset($arrArticles);
+            $arrFirst = reset($arrAllArticles);
             $arrFirst['link'] = $GLOBALS['TL_LANG']['MSC']['first'];
             $this->Template->first = $arrFirst;
         }
@@ -134,7 +160,7 @@ class NewsPagination extends ModuleNews
         // assign array prev
         if($intActive > 1)
         {
-            $arrPrevious = $arrArticles[$intActive-1];
+            $arrPrevious = $arrAllArticles[$intActive-1];
             $arrPrevious['link'] = $GLOBALS['TL_LANG']['MSC']['previous'];
             $this->Template->previous = $arrPrevious;
         }
@@ -142,7 +168,7 @@ class NewsPagination extends ModuleNews
         // assign array next
         if($intActive < $intCounter)
         {
-            $arrNext = $arrArticles[$intActive+1];
+            $arrNext = $arrAllArticles[$intActive+1];
             $arrNext['link'] = $GLOBALS['TL_LANG']['MSC']['next'];
             $this->Template->next = $arrNext;
         }
@@ -150,7 +176,7 @@ class NewsPagination extends ModuleNews
         // assign array last
         if($intActive < $intCounter-1)
         {
-            $arrLast = end($arrArticles);
+            $arrLast = end($arrAllArticles);
             $arrLast['link'] = $GLOBALS['TL_LANG']['MSC']['last'];
             $this->Template->last = $arrLast;
         }
