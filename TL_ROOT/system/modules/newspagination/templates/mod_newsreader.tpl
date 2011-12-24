@@ -3,7 +3,7 @@
         <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
     <?php endif; ?>
     <?php echo $this->articles; ?>
-    <?php if($this->news_pagination): ?>
+    <?php if($this->addNewspagination): ?>
         <?php echo addNewsPagination($this); ?>
     <?php endif; ?>
     <!-- indexer::stop -->

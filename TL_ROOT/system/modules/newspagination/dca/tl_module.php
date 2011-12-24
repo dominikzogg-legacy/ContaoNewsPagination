@@ -27,22 +27,64 @@
  */
 
 /**
- * Add palettes to tl_module
+ * Add subpalettes
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader'] = str_replace('news_archives', 'news_archives,news_pagination', $GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader']);
+$arrAddSubpalette = array
+(
+    'newspagination' => array
+    (
+        'palette' => 'template_legend',
+        'subpalette' => 'news_paginationCount',
+    ),
+);
+foreach($arrAddSubpalette as $strSubpaletteName => $arrPaletteAndSubpaletteInfo)
+{
+    // modificate palette
+    foreach($GLOBALS['TL_DCA']['tl_module']['palettes'] as $strKey => $strValue)
+    {
+        if($strKey != '__selector__')
+        {
+            $GLOBALS['TL_DCA']['tl_module']['palettes'][$strKey] = str_replace
+            (
+                $arrPaletteAndSubpaletteInfo['palette'],
+                $strSubpaletteName . '_legend},add' . ucfirst($strSubpaletteName) . ';{' . $arrPaletteAndSubpaletteInfo['palette'],
+                $GLOBALS['TL_DCA']['tl_module']['palettes'][$strKey]
+            );
+        }
+    }
+
+    // add as subpalette
+    $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'add' . ucfirst($strSubpaletteName);
+    $GLOBALS['TL_DCA']['tl_module']['subpalettes']['add' . ucfirst($strSubpaletteName)] = $arrPaletteAndSubpaletteInfo['subpalette'];
+}
+
+
 
 /**
  * Add fields to tl_module
  */
-$GLOBALS['TL_DCA']['tl_module']['fields']['news_archives']['eval']['tl_class'] = 'w50';
-
-$GLOBALS['TL_DCA']['tl_module']['fields']['news_pagination'] = array
+$GLOBALS['TL_DCA']['tl_module']['fields']['addNewspagination'] = array
 (
-    'label' => &$GLOBALS['TL_LANG']['tl_module']['news_pagination'],
+    'label' => &$GLOBALS['TL_LANG']['tl_module']['addNewspagination'],
     'exclude' => true,
+    'filter' => true,
     'inputType' => 'checkbox',
     'eval' => array
     (
-        'tl_class' => 'w50',
+        'submitOnChange' => true,
+    )
+);
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['news_paginationCount'] = array
+(
+    'label' => &$GLOBALS['TL_LANG']['tl_module']['news_paginationCount'],
+    'exclude' => true,
+    'inputType' => 'text',
+    'default' => 10,
+    'eval' => array
+    (
+        'mandatory' => true,
+        'rgxp' => 'digit',
+        'tl_class' => 'w50'
     ),
 );

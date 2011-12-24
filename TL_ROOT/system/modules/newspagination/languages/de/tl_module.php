@@ -29,4 +29,10 @@
 /**
  * Fields
  */
-$GLOBALS['TL_LANG']['tl_module']['news_pagination'] = array('Pagination', 'fügt einen Paginator hinzu.');
+$GLOBALS['TL_LANG']['tl_module']['addNewspagination'] = array('Pagination hinzufügen', 'Fügt der Nachricht einen Paginator hinzu.');
+$GLOBALS['TL_LANG']['tl_module']['news_paginationCount'] = array('Anzahl Artikel', 'Bestimmt die Anzahl Artikel, welche im Paginator verlinkt werden.');
+
+/**
+ * Legends
+ */
+$GLOBALS['TL_LANG']['tl_module']['newspagination_legend'] = 'Pagination';
