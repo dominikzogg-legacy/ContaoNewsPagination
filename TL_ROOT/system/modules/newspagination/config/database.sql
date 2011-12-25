@@ -13,5 +13,6 @@
 
 CREATE TABLE `tl_module` (
   `addNewspagination` char(1) NOT NULL default '',
-  `news_paginationCount` smallint(5) unsigned NOT NULL default '0'
+  `news_paginationCount` smallint(5) unsigned NOT NULL default '0',
+  `news_paginationShowtitle` char(1) NOT NULL default ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
