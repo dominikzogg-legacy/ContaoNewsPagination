@@ -128,28 +128,6 @@ class NewsPagination extends ModuleNews
         // assign all articles
         $this->Template->allarticles = $arrAllArticles;
 
-
-        // set start at
-        $intStartAt = floor($intActive - ($this->itemtoshow / 2));
-        $intStartAt = $intCounter - $this->itemtoshow > $intStartAt ? $intStartAt : $intCounter - $this->itemtoshow;
-        $intStartAt = $intStartAt > 1 ?$intStartAt : 1;
-
-        // set stop at
-        $intStopAt = $intStartAt + $this->itemtoshow;
-        $intStopAt = $intStopAt <= $intCounter ? $intStopAt : $intCounter;
-        
-        // fill article to show array
-        foreach($arrAllArticles as $intKey => $arrArticle)
-        {
-            if($intKey >= $intStartAt && $intKey <= $intStopAt)
-            {
-                $arrArticles[$intKey] = $arrArticle;
-            }
-        }
-
-        // assign articles
-        $this->Template->articles = $arrArticles;
-
         // assign array first
         if($intActive > 2)
         {
@@ -180,6 +158,43 @@ class NewsPagination extends ModuleNews
             $arrLast = end($arrAllArticles);
             $arrLast['link'] = $GLOBALS['TL_LANG']['MSC']['last'];
             $this->Template->last = $arrLast;
+        }
+
+        // set start at
+        $intStartAt = floor($intActive - ($this->itemtoshow / 2));
+        $intStartAt = $intCounter - $this->itemtoshow > $intStartAt ? $intStartAt : $intCounter - $this->itemtoshow;
+        $intStartAt = $intStartAt > 1 ?$intStartAt : 1;
+
+        // set stop at
+        $intStopAt = $intStartAt + $this->itemtoshow;
+        $intStopAt = $intStopAt <= $intCounter ? $intStopAt : $intCounter;
+
+        // fill article to show array
+        foreach($arrAllArticles as $intKey => $arrArticle)
+        {
+            if($intKey >= $intStartAt && $intKey <= $intStopAt)
+            {
+                $arrArticles[$intKey] = $arrArticle;
+            }
+        }
+
+        // assign articles
+        $this->Template->articles = $arrArticles;
+
+        // assign start at if bigger than one
+        if($intStartAt > 1)
+        {
+            $arrStartAt = $arrArticles[$intStartAt];
+            $arrStartAt['link'] = $GLOBALS['TL_LANG']['MSC']['points'];
+            $this->Template->startat = $arrStartAt;
+        }
+
+        // assign stop at if its smaller the count
+        if($intStopAt < $intCounter)
+        {
+            $arrStopAt = $arrArticles[$intStopAt];
+            $arrStopAt['link'] = $GLOBALS['TL_LANG']['MSC']['points'];
+            $this->Template->stopat = $arrStopAt;
         }
     }
 }
