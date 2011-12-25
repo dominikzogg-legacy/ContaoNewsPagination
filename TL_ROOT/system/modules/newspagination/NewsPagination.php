@@ -123,7 +123,7 @@ class NewsPagination extends ModuleNews
         }
 
         // assign total
-        $this->Template->total = sprintf($GLOBALS['TL_LANG']['MSC']['totalPages'], $intActive, $intCounter);
+        $this->Template->total = sprintf($GLOBALS['TL_LANG']['MSC']['totalNews'], $intActive, $intCounter);
 
         // assign all articles
         $this->Template->allarticles = $arrAllArticles;
