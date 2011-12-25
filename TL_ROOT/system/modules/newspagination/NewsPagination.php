@@ -53,6 +53,7 @@ class NewsPagination extends ModuleNews
         // get data from news reader
         $this->item = $this->Input->get('items');
         $this->itemtoshow = $objNewsReader->news_paginationCount;
+        $this->showtitle = $objNewsReader->news_paginationShowtitle;
         $this->news_archives = $objNewsReader->news_archives;
     }
 
@@ -108,7 +109,7 @@ class NewsPagination extends ModuleNews
                 'isActive' => $this->item == $strAlias ? true : false,
                 'href' => $this->addToUrl('items=' . $strAlias),
                 'title' => specialchars($objArticles->headline),
-                'link' => $intCounter,
+                'link' => !$this->showtitle ? $intCounter : $objArticles->headline,
             );
 
             // add to articles array
