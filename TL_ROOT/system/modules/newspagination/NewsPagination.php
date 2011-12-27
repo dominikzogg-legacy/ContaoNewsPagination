@@ -171,6 +171,22 @@ class NewsPagination extends ModuleNews
             // set stop at
             $intStopAt = $intStartAt + $this->itemtoshow;
             $intStopAt = $intStopAt <= $intCounter ? $intStopAt : $intCounter;
+            
+            // assign start at if bigger than one
+            if($intStartAt > 1)
+            {
+                $arrStartAt = $arrAllArticles[$intStartAt-1];
+                $arrStartAt['link'] = $GLOBALS['TL_LANG']['MSC']['points'];
+                $this->Template->startat = $arrStartAt;
+            }
+
+            // assign stop at if its smaller the count
+            if($intStopAt < $intCounter)
+            {
+                $arrStopAt = $arrAllArticles[$intStopAt+1];
+                $arrStopAt['link'] = $GLOBALS['TL_LANG']['MSC']['points'];
+                $this->Template->stopat = $arrStopAt;
+            }
 
             // fill article to show array
             foreach($arrAllArticles as $intKey => $arrArticle)
@@ -183,22 +199,6 @@ class NewsPagination extends ModuleNews
 
             // assign articles
             $this->Template->articles = $arrArticles;
-
-            // assign start at if bigger than one
-            if($intStartAt > 1)
-            {
-                $arrStartAt = $arrArticles[($intStartAt -1)];
-                $arrStartAt['link'] = $GLOBALS['TL_LANG']['MSC']['points'];
-                $this->Template->startat = $arrStartAt;
-            }
-
-            // assign stop at if its smaller the count
-            if($intStopAt < $intCounter)
-            {
-                $arrStopAt = $arrArticles[($intStopAt +1)];
-                $arrStopAt['link'] = $GLOBALS['TL_LANG']['MSC']['points'];
-                $this->Template->stopat = $arrStopAt;
-            }
         }
         else
         {
