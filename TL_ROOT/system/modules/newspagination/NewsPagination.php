@@ -71,6 +71,9 @@ class NewsPagination extends ModuleNews
      */
     protected function compile()
     {
+        // get page
+        global $objPage;
+
         $arrAllArticles = array();
         $arrArticles = array();
         $intCounter = 0;
@@ -107,7 +110,7 @@ class NewsPagination extends ModuleNews
             $arrArticle = array
             (
                 'isActive' => $this->item == $strAlias ? true : false,
-                'href' => $this->addToUrl('items=' . $strAlias),
+                'href' => ampersand($this->generateFrontendUrl($objPage->row(), ($GLOBALS['TL_CONFIG']['useAutoItem'] ?  '/' : '/items/') . $strAlias)),
                 'title' => specialchars($objArticles->headline),
                 'link' => !$this->showtitle ? $intCounter : $objArticles->headline,
             );
