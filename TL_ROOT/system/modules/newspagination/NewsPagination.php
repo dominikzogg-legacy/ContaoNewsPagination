@@ -101,7 +101,7 @@ class NewsPagination extends ModuleNews
             $intCounter++;
 
             // get alias
-            $strAlias = (strlen($objArticles->alias) && !$GLOBALS['TL_CONFIG']['disableAlias']) ? $objArticles->alias : $objArticles->id;
+            $strAlias = (!$GLOBALS['TL_CONFIG']['disableAlias'] && $objArticles->alias != '') ? $objArticles->alias : $objArticles->id;
 
             // add to articles array
             $arrArticle = array
