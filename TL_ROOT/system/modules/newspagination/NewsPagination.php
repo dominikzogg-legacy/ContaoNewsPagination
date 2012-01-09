@@ -110,7 +110,7 @@ class NewsPagination extends ModuleNews
             $arrArticle = array
             (
                 'isActive' => $this->item == $strAlias ? true : false,
-                'href' => ampersand($this->generateFrontendUrl($objPage->row(), ($GLOBALS['TL_CONFIG']['useAutoItem'] ?  '/' : '/items/') . $strAlias)),
+                'href' => ampersand($this->generateFrontendUrl($objPage->row(), ((isset($GLOBALS['TL_CONFIG']['useAutoItem']) && $GLOBALS['TL_CONFIG']['useAutoItem']) ?  '/' : '/items/') . $strAlias)),
                 'title' => specialchars($objArticles->headline),
                 'link' => !$this->showtitle ? $intCounter : $objArticles->headline,
             );
