@@ -29,5 +29,5 @@
 /**
  * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MSC']['totalNews']    = 'Message %s von %s';
+$GLOBALS['TL_LANG']['MSC']['totalNews']    = 'Message %s of %s';
 $GLOBALS['TL_LANG']['MSC']['points'] = '...';
