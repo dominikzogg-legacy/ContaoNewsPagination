@@ -80,6 +80,8 @@ class NewsPagination extends \ModuleNews
                 news.id = content.pid AND
                 news.pid IN(" . implode(',', $this->news_archives) . ")
                 " . (!BE_USER_LOGGED_IN ? " AND (news.start = '' OR news.start < ?) AND (news.stop = '' OR news.stop > ?) AND news.published = 1" : "") . "
+            GROUP BY
+                news.id
             ORDER BY
                 news.date DESC
         ")->execute($intTime, $intTime);
@@ -160,7 +162,7 @@ class NewsPagination extends \ModuleNews
             // set stop at
             $intStopAt = $intStartAt + $this->itemtoshow;
             $intStopAt = $intStopAt <= $intCounter ? $intStopAt : $intCounter;
-            
+
             // assign start at if bigger than one
             if($intStartAt > 1)
             {
