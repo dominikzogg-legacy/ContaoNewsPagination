@@ -17,7 +17,7 @@
  */
 ClassLoader::addNamespaces(array
 (
-    'DominikZogg\NewsPagination',
+    'DominikZogg',
 ));
 
 /**
@@ -25,8 +25,11 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
+    // Hooks
+    'DominikZogg\NewsPaginationHook'     => 'system/modules/newspagination/hooks/NewsPaginationHook.php',
+
     // Modules
-    'DominikZogg\NewsPagination\NewsPagination'     => 'system/modules/newspagination/modules/NewsPagination.php',
+    'DominikZogg\NewsPagination'         => 'system/modules/newspagination/modules/NewsPagination.php',
 ));
 
 /**

@@ -11,14 +11,4 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
-
-/**
- * addNewsPagination
- * @param object $objNewsReader news reader object
- * @return string rendered news pagination template
- */
-function addNewsPagination($objNewsReader)
-{
-    $objNewsPagination = new NewsPagination($objNewsReader);
-    return($objNewsPagination->generate());
-}
+$GLOBALS['TL_HOOKS']['parseTemplate'][] = array('NewsPaginationHook', 'addNewsPagination');

@@ -12,7 +12,7 @@
  */
 
 
-namespace DominikZogg\NewsPagination;
+namespace DominikZogg;
 
 class NewsPagination extends \ModuleNews
 {
