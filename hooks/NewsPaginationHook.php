@@ -19,8 +19,12 @@ class NewsPaginationHook
     {
         if(strpos(get_class($objTemplate), 'FrontendTemplate') !== false) {
             $objTemplate->addNewsPagination = function() use ($objTemplate) {
-                $objNewsPagination = new \NewsPagination($objTemplate);
-                return($objNewsPagination->generate());
+                if($objTemplate->addNewspagination) {
+                    $objNewsPagination = new \NewsPagination($objTemplate);
+                    return($objNewsPagination->generate());
+                }
+
+                return '';
             };
         }
     }

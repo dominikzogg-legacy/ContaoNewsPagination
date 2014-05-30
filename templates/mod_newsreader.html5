@@ -3,9 +3,7 @@
         <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
     <?php endif; ?>
     <?php echo $this->articles; ?>
-    <?php if($this->addNewspagination): ?>
-        <?php echo $this->addNewsPagination(); ?>
-    <?php endif; ?>
+    <?php echo $this->addNewsPagination(); ?>
     <!-- indexer::stop -->
     <p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
     <!-- indexer::continue -->

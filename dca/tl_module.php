@@ -11,39 +11,14 @@
  * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
-
-/**
- * Add subpalettes
- */
-$arrAddSubpalette = array
-(
-    'newspagination' => array
-    (
-        'palette' => 'template_legend',
-        'subpalette' => 'news_paginationCount,news_paginationShowtitle',
-    ),
+$GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader'] = str_replace(
+    '{template_legend}',
+    '{newspagination_legend},addNewspagination;{template_legend}',
+    $GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader']
 );
-foreach($arrAddSubpalette as $strSubpaletteName => $arrPaletteAndSubpaletteInfo)
-{
-    // modificate palette
-    foreach($GLOBALS['TL_DCA']['tl_module']['palettes'] as $strKey => $strValue)
-    {
-        if($strKey != '__selector__')
-        {
-            $GLOBALS['TL_DCA']['tl_module']['palettes'][$strKey] = str_replace
-            (
-                $arrPaletteAndSubpaletteInfo['palette'],
-                $strSubpaletteName . '_legend},add' . ucfirst($strSubpaletteName) . ';{' . $arrPaletteAndSubpaletteInfo['palette'],
-                $GLOBALS['TL_DCA']['tl_module']['palettes'][$strKey]
-            );
-        }
-    }
 
-    // add as subpalette
-    $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'add' . ucfirst($strSubpaletteName);
-    $GLOBALS['TL_DCA']['tl_module']['subpalettes']['add' . ucfirst($strSubpaletteName)] = $arrPaletteAndSubpaletteInfo['subpalette'];
-}
-
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'addNewspagination';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['addNewspagination'] = 'news_paginationCount,news_paginationShowtitle';
 
 /**
  * Add fields to tl_module
