@@ -17,7 +17,7 @@ class NewsPaginationHook
 {
     public function addNewsPagination($objTemplate)
     {
-        if(strpos(get_class($objTemplate), 'FrontendTemplate') !== false && $objTemplate->strTemplate == 'mod_newsreader') {
+        if(strpos(get_class($objTemplate), 'FrontendTemplate') !== false) {
             $objTemplate->addNewsPagination = function() use ($objTemplate) {
                 $objNewsPagination = new \NewsPagination($objTemplate);
                 return($objNewsPagination->generate());
