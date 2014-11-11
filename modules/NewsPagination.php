@@ -74,8 +74,6 @@ class NewsPagination extends \ModuleNews
                 news.headline
             FROM
                 tl_news AS news
-            LEFT JOIN
-                tl_content AS content ON(content.ptable = 'tl_news' AND news.id = content.pid)
             WHERE
                 news.pid IN(" . implode(',', $this->news_archives) . ")
                 " . (!BE_USER_LOGGED_IN ? " AND (news.start = '' OR news.start < ?) AND (news.stop = '' OR news.stop > ?) AND news.published = 1" : "") . "
