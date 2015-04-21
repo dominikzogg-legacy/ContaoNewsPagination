@@ -17,6 +17,13 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader'] = str_replace(
     $GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader']
 );
 
+// newer contao version
+$GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader'] = str_replace(
+    '{template_legend:hide}',
+    '{newspagination_legend},addNewspagination;{template_legend:hide}',
+    $GLOBALS['TL_DCA']['tl_module']['palettes']['newsreader']
+);
+
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'addNewspagination';
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['addNewspagination'] = 'news_paginationCount,news_paginationShowtitle';
 
